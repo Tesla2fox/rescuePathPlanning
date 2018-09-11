@@ -183,7 +183,7 @@ if __name__ == '__main__':
         proUnitNum += i*proLevLst[i]
     
     proLevMat = cp.deepcopy(proMat)
-    print(proLevMat)
+#    print(proLevMat)
     proUnit = 1/proUnitNum 
     for i,j in np.ndindex(proMat.shape):
         proMat[i][j] *= proUnit
@@ -224,11 +224,9 @@ if __name__ == '__main__':
     rd.writeConf(f_con,'proLevNum',[proLevNum])   
     proLevGrid = []
     for i,j in np.ndindex(proLevMat.shape):
-        proLevGrid.append(proLevMat[i][j])
+        proLevGrid.append(int(proLevMat[i][j]))
     rd.writeConf(f_con,'proLevGrid',proLevGrid)
-    
-    
-    
-        
+    rd.writeConf(f_con,'proUnit',[proUnit])
+            
     f_con.close()
     

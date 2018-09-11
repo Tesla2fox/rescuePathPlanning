@@ -15,7 +15,7 @@ import copy
 import readCfg.read_cfg as rd
 from IPython.display import HTML,display 
 import colorlover as cl
-
+import math
 #import read_cfg 
 
 
@@ -95,8 +95,8 @@ class Env:
         self.shapeLst = []
         self.drawData = []
         self.annotations = []
-    def addgrid(self):
-        
+        self.proLevNum = 0
+    def addgrid(self):        
         g_color = 'blue'
         row = len(self.mat)        
         for i in range(row):
@@ -115,6 +115,26 @@ class Env:
 #                getLevelColor(mat[i][j])
                 self.shapeLst.append(copy.deepcopy(rectDic))
         print(len(self.shapeLst))
+    def addProGrid(self,proLevLst = []):
+        line_color = 'red'
+        ind = 0 
+        bupu = cl.scales['9']['seq']['YlGnBu']        
+        bupuNum = cl.interp(bupu,500)
+        bupuUnit  = math.floor(500/4)
+        for i in range(row):
+            for j in range(len(self.mat[i])):
+                pnt = Pnt(i,j)
+                rect = Rect(pnt,1,1)
+                rectDic = rect.rect2dict()
+                rectDic['line']['color'] = line_color
+                rectDic['line']['width'] = 0.5
+                if int(proLevLst[ind]) == 0:
+                    rectDic['fillcolor'] = 'black'
+                else:
+                    rectDic['fillcolor'] = bupuNum[int((proLevLst[ind] - 1) *bupuUnit)]
+                    rectDic['opacity'] =  0.7
+                ind  += 1
+                self.shapeLst.append(copy.deepcopy(rectDic))
     def addRobotStartPnt(self,lst= []):
         for i in range(len(lst[0])):
             lst[0][i] = lst[0][i] + 0.5
@@ -202,11 +222,19 @@ def drawIns(cfgFileName = '5_20_20_80_Outdoor_Cfg.txt',drawType = 1,
     robColLst = []
     readCfg.get('robRow',robRowLst)
     readCfg.get('robCol',robColLst)
+    
+    proLevLst = []
+    readCfg.get('proLevGrid',proLevLst)
+    env = Env(mat)
+
+    env.proLevNum = int(readCfg.getSingleVal('proLevNum'))
+#    proMat  = np.zeros((row,col),dtype = int)
+    
         
     #case 1 draw Environment
     if(drawType == 1):
-        env = Env(mat)
-        env.addgrid()
+#        env.addgrid()
+        env.addProGrid(proLevLst = proLevLst)
         robLst = []
         robLst.append(robRowLst)
         robLst.append(robColLst)
@@ -214,6 +242,7 @@ def drawIns(cfgFileName = '5_20_20_80_Outdoor_Cfg.txt',drawType = 1,
         cfgFileName  = cfgFileName.split('data//')[1]
         cfgFileName  = cfgFileName.split('.dat')[0]
         env.drawPic('./png/env_'+cfgFileName,fileType)
+    
     #case 2 draw Environment with edges        
 if __name__ == '__main__':
     drawIns( cfgFileName = './/data//1_8_8_3_Cfg.dat',fileType = True)
