@@ -118,6 +118,7 @@ class Env:
     def addProGrid(self,proLevLst = []):
         line_color = 'red'
         ind = 0 
+        row = len(self.mat)        
         bupu = cl.scales['9']['seq']['YlGnBu']        
         bupuNum = cl.interp(bupu,500)
         bupuUnit  = math.floor(500/4)
@@ -245,5 +246,5 @@ def drawIns(cfgFileName = '5_20_20_80_Outdoor_Cfg.txt',drawType = 1,
     
     #case 2 draw Environment with edges        
 if __name__ == '__main__':
-    drawIns( cfgFileName = './/data//1_8_8_3_Cfg.dat',fileType = True)
+    drawIns( cfgFileName = './/data//1_20_20_50_Cfg.dat',fileType = True)
     pass

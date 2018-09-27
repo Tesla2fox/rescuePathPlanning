@@ -43,8 +43,8 @@ def getNeighbor(envMat,lst = (0,0),row =20, col =20):
 
 if __name__ == '__main__':
 #    print('wtf')
-    row = 8
-    col = 8
+    row = 20
+    col = 20
     
     mat = np.zeros((row,col),dtype=int)
     for i in range(row):
@@ -54,7 +54,7 @@ if __name__ == '__main__':
 # one means the way pnt
     
     robNum = 1
-    obNum  = 3
+    obNum  = 50
     random.seed(10)
     
     
@@ -227,6 +227,7 @@ if __name__ == '__main__':
         proLevGrid.append(int(proLevMat[i][j]))
     rd.writeConf(f_con,'proLevGrid',proLevGrid)
     rd.writeConf(f_con,'proUnit',[proUnit])
-            
-    f_con.close()
     
+                
+    f_con.close()
+    print(conFileCfg)
